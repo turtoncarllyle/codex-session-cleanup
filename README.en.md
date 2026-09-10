@@ -14,7 +14,7 @@ The skill can be used by **Codex or ChatGPT Work** on **Windows and macOS**. It 
 
 - Separate Chinese and English guides with a language switch.
 - Usage steps, tips and cautions.
-- A screenshot showing how to copy a thread deep link.
+- An illustrated guide to copying a thread deep link, using fictional data.
 - Workflows for Codex and ChatGPT Work.
 - Windows/macOS support, with automated tests passing on both platforms.
 
@@ -44,7 +44,7 @@ If ChatGPT Work has no skill installer, attach [SKILL.md](codex-session-cleanup/
 
 ## Copy the thread deep link
 
-![Right-click the problematic thread, open Copy, then choose Copy deep link](docs/images/copy-thread-deep-link.png)
+![English UI illustration: right-click the problematic thread, open Copy, then choose Copy deep link](docs/images/copy-thread-deep-link.en-US.png)
 
 1. Find the problematic conversation in the sidebar.
 2. Right-click it. On macOS, a two-finger click or Control-click also works.
