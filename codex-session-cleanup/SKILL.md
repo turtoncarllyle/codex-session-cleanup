@@ -72,5 +72,5 @@ When local capabilities are absent, supply the script and reference as files; do
 - SQLite 使用事务和外键，文件替换使用 UTF-8 和内容变更检测；多个数据库与文件之间没有整体原子事务。异常可能留下部分完成状态，流程支持精确 ID 重试。
   SQLite uses transactions and foreign keys; file replacements use UTF-8 and content-change checks. There is no global transaction across databases and files. A failure may leave partial completion; retry by exact ID.
 
-用户安装、操作步骤、技巧与注意事项见仓库的双语 `README.md`；技术存储细节仅在排查时读取 reference。
-The repository's bilingual `README.md` covers installation, steps, tips, and cautions. Load the technical reference only when troubleshooting requires it.
+用户安装、操作步骤、技巧与注意事项见仓库的 `README.md`（中文）和 `README.en.md`（英文）；技术存储细节仅在排查时读取 reference。
+The repository's `README.md` (Chinese) and `README.en.md` (English) cover installation, steps, tips, and cautions. Load the technical reference only when troubleshooting requires it.
