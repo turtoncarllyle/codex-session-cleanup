@@ -2,6 +2,10 @@
 
 **可由 Codex / ChatGPT Work 使用的桌面会话清理技能 / Desktop thread cleanup for Codex and ChatGPT Work**
 
+**核心用途：解决会话无法归档、一直留在会话列表或侧边栏中的问题。** 当点击归档失败、会话长期存在，或者删除文件后重启仍显示时，使用 `codex-session-cleanup` 按会话链接定位并清理残留记录。
+
+**Primary purpose: resolve conversations that cannot be archived and remain stuck in the conversation list or sidebar.** When archiving fails, a conversation persists, or it returns after deleting its file and restarting, use `codex-session-cleanup` to locate and clean its remaining records by thread link.
+
 清理无法归档、源文件损坏或删除后仍出现在侧边栏的本地会话。提供 `codex-session-cleanup` 技能和一个仅依赖 Python 标准库的清理脚本，覆盖 Windows 与 macOS 的操作方式。
 
 Clean up local conversations that cannot be archived, have damaged source files, or remain in the sidebar after deletion. Includes the `codex-session-cleanup` skill, a Python standard-library script, and Windows/macOS workflows.

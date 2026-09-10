@@ -1,4 +1,4 @@
 interface:
   display_name: "Codex 会话清理 / Thread Cleanup"
-  short_description: "适用于 Codex 与 ChatGPT Work 的会话清理，处理损坏记录和侧边栏残留"
-  default_prompt: "使用 $codex-session-cleanup 清理我指定的会话及侧边栏残留。"
+  short_description: "解决会话无法归档、一直显示的问题，支持 Codex、ChatGPT Work 与双端清理"
+  default_prompt: "使用 $codex-session-cleanup 处理以下无法归档、一直留在会话列表中的会话，并核验清理结果。"

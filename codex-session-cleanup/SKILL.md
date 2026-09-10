@@ -1,9 +1,12 @@
 ---
 name: codex-session-cleanup
-description: Reusable by Codex or ChatGPT Work to diagnose and clean explicitly selected desktop tasks when archive fails, local rollout files are corrupt, or sidebar entries persist. Use for 源头删除会话、归档失败、侧边栏残留 or codex://threads links on Windows/macOS; inspect available local or cloud capabilities before mutation.
+description: Resolve conversations that cannot be archived and remain stuck in the task list or sidebar (会话无法归档、一直存在、重启后仍显示). Reusable by Codex or ChatGPT Work on Windows/macOS to inspect exact thread links and remove authorized local remnants, including corrupt rollouts and stale desktop catalog entries. Route by actual local or cloud capabilities.
 ---
 
-# 桌面会话清理 / Desktop thread cleanup
+# Codex 会话清理 / Codex session cleanup
+
+核心用途：处理会话无法归档、长期存在于列表、重启后仍在侧边栏中的问题。接受用户复制的会话深度链接，定位并清理源文件和各层残留记录。
+Primary purpose: resolve unarchivable conversations that persist in the list or sidebar after restart. Accept copied thread deep links, locate their source files and clean up records across the relevant stores.
 
 将用户明确指定的本地会话从源文件、数据库、索引及桌面目录中删除。
 Remove explicitly selected local threads from rollouts, databases, indexes, and the desktop catalog.
