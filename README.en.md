@@ -1,4 +1,4 @@
-# codex-thread-skills
+# codex-session-cleanup
 
 [简体中文](README.md) | **[English](README.en.md)**
 
@@ -35,7 +35,7 @@ For a batch, paste one thread link per line.
 In an environment with skill installation support, ask the assistant:
 
 ```text
-Install codex-session-cleanup from https://github.com/turtoncarllyle/codex-thread-skills/tree/main/codex-session-cleanup.
+Install codex-session-cleanup from https://github.com/turtoncarllyle/codex-session-cleanup/tree/main/codex-session-cleanup.
 ```
 
 Restart the client or open a new task after installation so the skill can be discovered. Running the local cleanup script requires Python 3.10 or newer.
@@ -103,7 +103,7 @@ See the [storage and troubleshooting guide](codex-session-cleanup/references/sto
 - [Skill instructions](codex-session-cleanup/SKILL.md)
 - [Cleanup script](codex-session-cleanup/scripts/cleanup_threads.py)
 - [Isolated tests](tests/test_cleanup.py)
-- [Windows/macOS automated tests](https://github.com/turtoncarllyle/codex-thread-skills/actions)
+- [Windows/macOS automated tests](https://github.com/turtoncarllyle/codex-session-cleanup/actions)
 
 Automated tests use synthetic data to verify exact deletion, desktop catalog cleanup, repeated execution, current-task protection and path boundaries. They do not delete real user conversations. The real client's appearance after restart still needs to be checked.
 

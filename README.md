@@ -1,4 +1,4 @@
-# codex-thread-skills
+# codex-session-cleanup
 
 **[简体中文](README.md)** | [English](README.en.md)
 
@@ -34,7 +34,7 @@
 在支持技能安装的环境中，可以直接告诉助手：
 
 ```text
-请从 https://github.com/turtoncarllyle/codex-thread-skills/tree/main/codex-session-cleanup 安装 codex-session-cleanup 技能。
+请从 https://github.com/turtoncarllyle/codex-session-cleanup/tree/main/codex-session-cleanup 安装 codex-session-cleanup 技能。
 ```
 
 安装后重启客户端或新建任务，让技能被重新发现。本机运行清理脚本需要 Python 3.10 或更新版本。
@@ -102,7 +102,7 @@ codex://threads/01a05091-d9cd-7612-b6c2-033360192471
 - [技能入口](codex-session-cleanup/SKILL.md)
 - [清理脚本](codex-session-cleanup/scripts/cleanup_threads.py)
 - [隔离测试](tests/test_cleanup.py)
-- [Windows／macOS 自动测试](https://github.com/turtoncarllyle/codex-thread-skills/actions)
+- [Windows／macOS 自动测试](https://github.com/turtoncarllyle/codex-session-cleanup/actions)
 
 自动测试使用模拟数据，验证精确删除、侧边栏目录清理、重复执行、当前任务保护和路径边界等行为，不会删除用户真实会话。真实客户端重启后的显示效果仍需实际查看。
 
