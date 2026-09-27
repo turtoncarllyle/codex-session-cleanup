@@ -8,8 +8,8 @@ description: Resolve conversations that cannot be archived and remain stuck in t
 核心用途：处理会话无法归档、长期存在于列表、重启后仍在侧边栏中的问题。接受用户复制的会话深度链接，定位并清理源文件和各层残留记录。
 Primary purpose: resolve unarchivable conversations that persist in the list or sidebar after restart. Accept copied thread deep links, locate their source files and clean up records across the relevant stores.
 
-将用户明确指定的本地会话从源文件、数据库、索引及桌面目录中删除。
-Remove explicitly selected local threads from rollouts, databases, indexes, and the desktop catalog.
+用户明确指定的本地会话从源文件、数据库、索引及桌面目录中删除；用户要求“永久删除”时，可在离线模式下对已触及的 SQLite 存储执行 checkpoint 和 VACUUM。
+Remove explicitly selected local threads from rollouts, databases, indexes, and the desktop catalog. When the user requests permanent deletion, offline mode can checkpoint and VACUUM the touched SQLite stores.
 
 ## 能力路由 / Capability routing
 
@@ -67,8 +67,8 @@ When local capabilities are absent, supply the script and reference as files; do
 
 - 删除源文件与专属记录；保留项目文件、子会话本体和其他会话正文中提及目标的文字。移除父子关系边，不递归删除子会话。
   Remove source files and owned records; retain project files, child threads, and mentions in other conversations. Remove relationship edges without recursively deleting children.
-- 包括 `.codex-global-state.json.bak` 这份即时镜像；不新增对话备份。历史备份、日志、附件、云端副本、SQLite 空闲页/WAL 历史内容不属于本技能擦除范围。
-  Include the immediate `.codex-global-state.json.bak` mirror without creating new conversation backups. Historical backups, logs, attachments, cloud copies, and forensic remnants in SQLite pages/WAL are outside scope.
+- 包括 `.codex-global-state.json.bak` 这份即时镜像；不新增对话备份。普通 `--apply` 不压缩数据库；`--permanent` 会压缩本次命中的 SQLite 文件，但历史备份、日志、附件、云端副本和取证级擦除仍不属于范围。
+  Include the immediate `.codex-global-state.json.bak` mirror without creating new conversation backups. Normal `--apply` does not compact databases; `--permanent` compacts touched SQLite files, but historical backups, logs, attachments, cloud copies, and forensic erasure remain out of scope.
 - SQLite 使用事务和外键，文件替换使用 UTF-8 和内容变更检测；多个数据库与文件之间没有整体原子事务。异常可能留下部分完成状态，流程支持精确 ID 重试。
   SQLite uses transactions and foreign keys; file replacements use UTF-8 and content-change checks. There is no global transaction across databases and files. A failure may leave partial completion; retry by exact ID.
 

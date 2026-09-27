@@ -93,7 +93,7 @@ This skill cleans tasks backed by supported local Codex storage. Ordinary ChatGP
 - Only explicitly selected threads are processed. Project source, worktrees and the contents of child conversations are retained.
 - Stop a target task if it is still running. A live app can rewrite cached state, which the assistant should account for.
 - Without local access, the assistant can only provide instructions; it cannot directly delete records on your computer.
-- Historical backups, logs, attachments, cloud copies and forensic erasure are outside the cleanup scope.
+- Historical backups, logs, attachments, cloud copies and forensic erasure remain outside the cleanup scope; `--permanent` does not change those boundaries.
 - Cleanup relies on recognized internal storage formats. Inspect unknown structures or dependencies before proceeding.
 
 See the [storage and troubleshooting guide](codex-session-cleanup/references/storage-map.md) for details.

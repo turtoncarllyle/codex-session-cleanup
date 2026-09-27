@@ -138,6 +138,19 @@ class CleanupTests(unittest.TestCase):
             self.assertEqual(c.execute("SELECT catalog_revision FROM local_thread_catalog_metadata").fetchone()[0], 8)
         self.assertEqual(self.cli("--verify", TARGET)[0], 0)
 
+    def test_permanent_cleanup_compacts_touched_databases(self):
+        code, out, err = self.cli("--apply", "--offline", "--permanent", TARGET)
+        self.assertEqual(code, 0, err)
+        result = json.loads(out)
+        self.assertEqual(result["mode"], "permanent")
+        self.assertIn(str(self.state), result["compacted_databases"])
+        self.assertIn(str(self.catalog), result["compacted_databases"])
+        self.assertEqual(result["verification"]["remaining_entries"], 0)
+
+    def test_permanent_requires_apply_and_offline(self):
+        self.assertEqual(self.cli("--permanent", TARGET)[0], 1)
+        self.assertEqual(self.cli("--apply", "--permanent", TARGET)[0], 1)
+
     def test_batch_links_and_duplicate_ids(self):
         code, out, err = self.cli("--apply", "--offline", "codex://threads/" + TARGET, TARGET, OTHER)
         self.assertEqual(code, 0, err)

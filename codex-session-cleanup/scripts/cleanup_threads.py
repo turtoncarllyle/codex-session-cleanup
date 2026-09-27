@@ -299,7 +299,21 @@ def check_files(plan):
             raise CleanupError(f"State changed concurrently; close Codex and retry: {p.name}")
 
 
-def apply(home, ids, catalog_db=None):
+def compact_databases(paths):
+    """Checkpoint and vacuum databases after a permanent local cleanup."""
+    compacted = []
+    for db in paths:
+        c = connect(db, write=True)
+        try:
+            c.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+            c.execute("VACUUM")
+        finally:
+            c.close()
+        compacted.append(str(db))
+    return compacted
+
+
+def apply(home, ids, catalog_db=None, permanent=False):
     with ExitStack() as stack:
         connections = {}
         for db in databases(home, catalog_db):
@@ -339,7 +353,11 @@ def apply(home, ids, catalog_db=None):
             if digest(p) != sha:
                 raise CleanupError(f"Rollout changed during deletion: {p.name}")
             p.unlink()
-    return plan
+        compacted = []
+        if permanent:
+            touched_databases = {p for p, *_ in plan.rows}
+            compacted = compact_databases(sorted(touched_databases))
+    return plan, compacted
 
 
 def main(argv=None):
@@ -352,6 +370,7 @@ def main(argv=None):
     mode.add_argument("--verify", action="store_true", help="Read-only check; exit 2 if entries remain")
     parser.add_argument("--protect-thread", action="append", default=[], help="Never delete this task UUID; repeatable")
     parser.add_argument("--offline", action="store_true", help="Assert that all Codex clients using this home are closed")
+    parser.add_argument("--permanent", action="store_true", help="After apply, checkpoint and VACUUM touched SQLite stores; still not forensic erasure")
     args = parser.parse_args(argv)
     try:
         ids = sorted({thread_id(t) for t in args.threads})
@@ -362,6 +381,10 @@ def main(argv=None):
             raise CleanupError("Refusing to delete the current/protected task. Use a separate task or external terminal.")
         if args.apply and not (protected or args.offline):
             raise CleanupError("Supply --protect-thread <current-task-id>, or run outside Codex with --offline after closing all clients.")
+        if args.permanent and not args.apply:
+            raise CleanupError("--permanent requires --apply.")
+        if args.permanent and not args.offline:
+            raise CleanupError("--permanent requires --offline after closing all clients.")
         home = args.home.expanduser().resolve(strict=True)
         if not home.is_dir() or not any((home / name).exists() for name in ("sessions", "archived_sessions", "sqlite", ".codex-global-state.json")):
             raise CleanupError("The selected directory does not look like a Codex data home.")
@@ -369,12 +392,14 @@ def main(argv=None):
         if args.apply:
             if plan.blockers:
                 raise CleanupError("; ".join(plan.blockers))
-            changed = apply(home, ids, args.catalog_db)
+            changed, compacted = apply(home, ids, args.catalog_db, args.permanent)
             plan = inspect(home, ids, catalog_db=args.catalog_db)
-            result = {"mode": "apply", "changed": changed.report(), "verification": plan.report()}
+            result = {"mode": "permanent" if args.permanent else "apply", "changed": changed.report(), "verification": plan.report()}
+            if args.permanent:
+                result["compacted_databases"] = compacted
         else:
             result = {"mode": "verify" if args.verify else "preview", **plan.report()}
-        result["scope"] = "Known local stores only; no cloud deletion, log/backup erasure or UI restart verification."
+        result["scope"] = "Known local stores only; no cloud deletion, log/backup erasure or forensic guarantee."
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 2 if plan.blockers or ((args.apply or args.verify) and plan.remaining) else 0
     except (CleanupError, OSError, sqlite3.Error, ValueError) as exc:
